@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+	<title>Canvas</title>
+	
+		<script type="text/javascript" charset="utf-8">
+			window.onload = function () {
+				var canvas = document.getElementById("myCanvas");
+				var context = canvas.getContext("2d");
+				var centerX = canvas.width / 2;
+				var centerY = canvas.height / 2;
+				var radius = 75;
+				var startingAngle =  1.1 * Math.PI;
+				var endingAngle = 1.9 * Math.PI;
+				var counterclockwise = false;
+
+				context.arc(centerX, centerY, radius, startingAngle, endingAngle, counterclockwise);
+				context.lineWidth = 15;
+				context.strokeStyle = "black";
+//				context.closePath();
+				context.stroke();
+			};
+		</script>
+</head>
+<body>
+	<canvas id="myCanvas" width="578" height="200">
+	</canvas>
+</body>
+</html>
