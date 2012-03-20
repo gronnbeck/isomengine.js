@@ -1,5 +1,5 @@
 DIMENSIONS = { 'x': 30, 'y': 30, 'z': 15 }
-CURRENT = { 'x': 0, 'y': 0, 'z': 0 }
+CURRENT = { 'x': 50, 'y': 300, 'z': 0 }
 
 // init board
 board = new Array(DIMENSIONS.x);
@@ -97,22 +97,9 @@ var drawBoard = function(cxt) {
 		};
 	};
 	
-	for (var i = 0; i < board.length; i++) {
-		for (var j = 0; j < board[i].length; j++) {
-			for (var k = 0; k < board[i][j].length; k++) {
-				if (i == CURRENT.x
-					&& j == CURRENT.y
-					&& k == CURRENT.z) {
-					cxt.fillStyle = "#ff00c6";
-					cxt.strokeStyle = "#000";
-					box(cxt, 
-						10*(i+1) + 10*j,
-						10*i*0.5 - 5*j + (300 - 10*k),
-						10);
-				}
-			};
-		};
-	};
+	cxt.fillStyle = "#ff00c6";
+	cxt.strokeStyle = "#000";
+	box(cxt, CURRENT.x, CURRENT.y, 10);
 
 };
 
@@ -126,20 +113,16 @@ var redraw = function(cxt, can) {
 function doKeyDown(evt) {
 	switch (evt.keyCode) {
 	case 37:
-		CURRENT.x--;
-		CURRENT.y--;
+		CURRENT.x -= 5;
 		break;
 	case 39:
-		CURRENT.x++;
-		CURRENT.y++;
+		CURRENT.x += 5;
 		break;
 	case 38:
-		CURRENT.x--;
-		CURRENT.y++;
+		CURRENT.y -= 5;
 		break;
 	case 40:
-		CURRENT.x++;
-		CURRENT.y--;
+		CURRENT.y += 5;
 		break;
 	}
 };
@@ -152,6 +135,23 @@ for (var i = 0; i < board.length; i++) {
 	};
 };
 
+function onGround() {
+	return  CURRENT.y <= 0.5*CURRENT.x + 300 	  	// left-bottom-constraint 
+			&& CURRENT.y >= -0.5*CURRENT.x + 300   	// left-top-constraint 	
+			&& CURRENT.y >= 0.5*CURRENT.x 		  	// right-top-constraint
+			&& CURRENT.y <= -0.5*CURRENT.x + 600;
+}
+falling = false;
+function next() {
+	if (falling) {
+		CURRENT.y += 10;
+	}
+	if (onGround()) {
+		return;
+	}
+		falling = true;
+}
+
 
 window.onload = function () {
 	var canvas = document.getElementById("myCanvas");
@@ -159,8 +159,8 @@ window.onload = function () {
 	redraw(context, canvas);
 	count = 1;
 
-	window.setInterval(function() { redraw(context, canvas); }, 
-		200); 
+	window.setInterval(function() { next(); redraw(context, canvas); }, 
+		100/24); 
 	
 	window.addEventListener('keydown', doKeyDown, true);
 };
