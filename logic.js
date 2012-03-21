@@ -1,5 +1,5 @@
 DIMENSIONS = { 'x': 30, 'y': 30, 'z': 15 }
-CURRENT = { 'x': 50, 'y': 300, 'z': 0 }
+CURRENT = { 'x': 50, 'y': 0, 'z': 0 }
 
 // init board
 board = new Array(DIMENSIONS.x);
@@ -99,7 +99,11 @@ var drawBoard = function(cxt) {
 	
 	cxt.fillStyle = "#ff00c6";
 	cxt.strokeStyle = "#000";
-	box(cxt, CURRENT.x, CURRENT.y, 10);
+//					box(cxt, 
+//						10*(i+1) + 10*j,
+//						10*i*0.5 - 5*j + (300 - 10*k),
+//						10);	
+	box(cxt, 10 + CURRENT.x + CURRENT.y, 0.5*CURRENT.x - 0.5*CURRENT.y + 20*(15 - CURRENT.z), 10);
 
 };
 
@@ -109,20 +113,24 @@ var redraw = function(cxt, can) {
 };
 
 
-
+var speed = 5;
 function doKeyDown(evt) {
 	switch (evt.keyCode) {
-	case 37:
-		CURRENT.x -= 5;
-		break;
-	case 39:
-		CURRENT.x += 5;
-		break;
 	case 38:
-		CURRENT.y -= 5;
+		CURRENT.y += speed;
+		CURRENT.x -= speed;
 		break;
 	case 40:
-		CURRENT.y += 5;
+		CURRENT.y -= speed;
+		CURRENT.x += speed;
+		break;
+	case 37:
+		CURRENT.x -= speed;
+		CURRENT.y -= speed;
+		break;
+	case 39:
+		CURRENT.x += speed;
+		CURRENT.y += speed;
 		break;
 	}
 };
@@ -131,20 +139,33 @@ function doKeyDown(evt) {
 // init the bottom floor
 for (var i = 0; i < board.length; i++) {
 	for (var j = 0; j < board[i].length; j++) {
-		board[i][j][0] = 1;
+		if (i >= 10 && i <= 15 
+			&& j >= 10 && j <= 15)
+			continue;
+			board[i][j][0] = 1;
 	};
 };
 
+
+
+
+box_height = 25;
 function onGround() {
-	return  CURRENT.y <= 0.5*CURRENT.x + 300 	  	// left-bottom-constraint 
-			&& CURRENT.y >= -0.5*CURRENT.x + 300   	// left-top-constraint 	
-			&& CURRENT.y >= 0.5*CURRENT.x 		  	// right-top-constraint
-			&& CURRENT.y <= -0.5*CURRENT.x + 600;
+	x = Math.round(CURRENT.x/10);
+	y = Math.round(CURRENT.y/10);
+	z = Math.round(CURRENT.z/10);
+	if (x >= 0 && y >= 0 && z >= 0 
+		&& x < DIMENSIONS.x && y < DIMENSIONS.y && z < DIMENSIONS.z) {
+		return board[x][y][z] == 1;
+	}
+	console.log(x + ", " + y + ", " + z);
+	return false;
 }
+
 falling = false;
 function next() {
 	if (falling) {
-		CURRENT.y += 10;
+		CURRENT.z -= 0.3;
 	}
 	if (onGround()) {
 		return;
