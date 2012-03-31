@@ -1,0 +1,4 @@
+Trying to create an game engine for rendering isometric games in the browser.
+
+The current master branch is experimental, and I'm trying to understand how the do the overall design. When the time comes I will push this code into a seperate branch, remove these files and start coding the real thing. I will also try to post the overall design description. 
+
