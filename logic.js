@@ -52,7 +52,7 @@ var box = function(cxt, x, y, size) {
 	tile(cxt, x, y-size, size);
 };
 
-var drawBoard = function(cxt) {
+var drawTiles = function(cxt) {
 	for (var i = 0; i < board.length; i++) {
 		for (var j = 0; j < board[i].length; j++) { 
 			for (var k = 0; k < board[i][j].length; k++) {		
@@ -68,13 +68,18 @@ var drawBoard = function(cxt) {
 			};
 		};
 	};
+};
 
+var drawWalls = function(cxt) {
 	for (var i = 0; i < board.length; i++) {
 		for (var j = 0; j < board[i].length; j++) {
 			for (var k = 0; k < board[i][j].length; k++) {
 				if (board[i][j][k] == 0) {
 					continue;
 				}
+
+				// fix so it properly renders! 
+				// as in: the whole need to have walls
 				cxt.fillStyle = "#563500";
 				cxt.strokeStyle = "#3d2602";
 				if (i == 0) {
@@ -96,13 +101,14 @@ var drawBoard = function(cxt) {
 			};
 		};
 	};
-	
+
+};
+
+var drawBoard = function(cxt) {
+	drawTiles(cxt);	
+	drawWalls(cxt);
 	cxt.fillStyle = "#ff00c6";
 	cxt.strokeStyle = "#000";
-//					box(cxt, 
-//						10*(i+1) + 10*j,
-//						10*i*0.5 - 5*j + (300 - 10*k),
-//						10);	
 	box(cxt, 10 + CURRENT.x + CURRENT.y, 0.5*CURRENT.x - 0.5*CURRENT.y + 20*(15 - CURRENT.z), 10);
 
 };
