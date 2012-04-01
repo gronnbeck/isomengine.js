@@ -107,15 +107,16 @@ var drawWalls = function(cxt) {
 var drawBoard = function(cxt) {
 	drawTiles(cxt);	
 	drawWalls(cxt);
-	cxt.fillStyle = "#ff00c6";
-	cxt.strokeStyle = "#000";
-	box(cxt, 10 + CURRENT.x + CURRENT.y, 0.5*CURRENT.x - 0.5*CURRENT.y + 20*(15 - CURRENT.z), 10);
-
 };
 
-var redraw = function(cxt, can) {
-	cxt.clearRect(0, 0, can.width, can.height);
-	drawBoard(cxt);
+WIDTH = 800;
+HEIGHT = 600;
+var redraw = function() {
+	layers[1].clearRect(0, 0, WIDTH, HEIGHT);
+	drawBoard(layers[0]);
+	layers[1].fillStyle = "#ff00c6";
+	layers[1].strokeStyle = "#000";
+	box(layers[1], 10 + CURRENT.x + CURRENT.y, 0.5*CURRENT.x - 0.5*CURRENT.y + 20*(15 - CURRENT.z), 10);
 };
 
 
@@ -179,15 +180,19 @@ function next() {
 		falling = true;
 }
 
+layers = [];
 
 window.onload = function () {
-	var canvas = document.getElementById("myCanvas");
-	var context = canvas.getContext("2d");
-	redraw(context, canvas);
-	count = 1;
+	var layer1 = document.getElementById("layer-1");
+	var layer2 = document.getElementById("layer-2");
+	var cxt1 = layer1.getContext("2d");
+	var cxt2 = layer2.getContext("2d");
+	layers.push(cxt1);
+	layers.push(cxt2);
+	redraw();
 
-	window.setInterval(function() { next(); redraw(context, canvas); }, 
-		100/24); 
+	window.setInterval(function() { next(); redraw(); }, 
+		100/12); 
 	
 	window.addEventListener('keydown', doKeyDown, true);
 };

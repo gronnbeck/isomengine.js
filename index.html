@@ -1,7 +1,19 @@
-<script src="logic.js"></script>
+<script src="engine.js"></script>
 
+<style>
+#layer-1 {
+	position: absolute;
+	z-index: 1;
+}
 
+#layer-2 {
+	position: absolute;
+	z-index: 2;
+}
+
+</style>
 
 <body style="margin-left: auto; margin-right: auto;">
-	<canvas id="myCanvas" width="800" height="600"></canvas>
+	<canvas id="layer-1" width="800" height="600"></canvas>
+	<canvas id="layer-2" width="800" height="600"></canvas>
 </body>
