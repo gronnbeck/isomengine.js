@@ -79,6 +79,7 @@ var BOX_CONTEXT;
 
 var redraw = function() {
 	BOX_CONTEXT.clearRect(0, 0, WIDTH, HEIGHT);
+	if (falling) drawBoard(layers[0]);
 	BOX_CONTEXT.fillStyle = "#ff00c6";
 	BOX_CONTEXT.strokeStyle = "#000";
 	box(BOX_CONTEXT, 10 + CURRENT.x + CURRENT.y, 0.5*CURRENT.x - 0.5*CURRENT.y + 20*(15 - CURRENT.z), 10);
