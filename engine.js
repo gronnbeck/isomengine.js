@@ -1,7 +1,6 @@
-require(['board.js'], function(b) {
+require(['board.js'], function(board) {
 
-b.init();
-var board = b.init();
+board.init();
 
 CURRENT = { 'x': 50, 'y': 0, 'z': 0 }
 WIDTH = 800;
@@ -56,15 +55,11 @@ var betabox = function(x,y,size) {
 	tile(layers[1], x, y-size, size);
 };
 
-var drawBoard = function(cxt) {
-	b.draw(cxt, betabox);	
-};
-
 var BOX_CONTEXT;
 
 var redraw = function() {
 	BOX_CONTEXT.clearRect(0, 0, WIDTH, HEIGHT);
-	if (falling) drawBoard(layers[0])
+	if (falling) board.draw(layers[0], betabox);
 	BOX_CONTEXT.fillStyle = "#ff00c6";
 	BOX_CONTEXT.strokeStyle = "#000";
 	box(BOX_CONTEXT, 10 + CURRENT.x + CURRENT.y, 0.5*CURRENT.x - 0.5*CURRENT.y + 20*(15 - CURRENT.z), 10);
@@ -97,12 +92,12 @@ function doKeyDown(evt) {
 
 
 // init the bottom floor for testing
-for (var i = 0; i < board.length; i++) {
-	for (var j = 0; j < board[i].length; j++) {
+for (var i = 0; i < board.DIMENSIONS.x; i++) {
+	for (var j = 0; j < board.DIMENSIONS.y; j++) {
 		if (i >= 10 && i <= 15 
 			&& j >= 10 && j <= 15)
 			continue;
-			board[i][j][0] = 1;
+			board.board[i][j][0] = 1;
 	};
 };
 
@@ -114,7 +109,7 @@ var onGround = function() {
 	z = Math.round(CURRENT.z/10);
 	if (x >= 0 && y >= 0 && z >= 0 
 		&& x < DIMENSIONS.x && y < DIMENSIONS.y && z < DIMENSIONS.z) {
-		return board[x][y][z] == 1;
+		return board.board[x][y][z] == 1;
 	}
 	return false;
 };
@@ -145,7 +140,7 @@ window.onload = function () {
 	layers.push(cxt1);
 	layers.push(cxt2);
 	BOX_CONTEXT = layers[2];
-	drawBoard(layers[0]);
+	board.draw(layers[0], betabox);
 	redraw();
 
 	window.setInterval(function() { next(); redraw(); }, 
