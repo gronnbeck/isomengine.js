@@ -50,10 +50,7 @@ var betabox = function(x,y,size) {
 	layers[0].strokeStyle = "#563500";
 	layers[0].fillStyle = "#3d2602";
 	left(layers[0], x-size, y-size*0.5, size);
-
-	layers[0].fillStyle = "#6e4505";
 	right(layers[0], x+size, y-size*0.5, size);
-	
 	layers[1].fillStyle = "#888";
 	layers[1].strokeStyle = "#777";
 	tile(layers[1], x, y-size, size);
@@ -78,18 +75,22 @@ var drawBoard = function(cxt) {
 	drawTiles(cxt);	
 };
 
+var BOX_CONTEXT;
 
 var redraw = function() {
-	layers[1].clearRect(0, 0, WIDTH, HEIGHT);
+	BOX_CONTEXT.clearRect(0, 0, WIDTH, HEIGHT);
+//	layers[2].clearRect(0, 0, WIDTH, HEIGHT);
 	drawBoard(layers[0]);
-	layers[1].fillStyle = "#ff00c6";
-	layers[1].strokeStyle = "#000";
-	box(layers[1], 10 + CURRENT.x + CURRENT.y, 0.5*CURRENT.x - 0.5*CURRENT.y + 20*(15 - CURRENT.z), 10);
+	BOX_CONTEXT.fillStyle = "#ff00c6";
+	BOX_CONTEXT.strokeStyle = "#000";
+	box(BOX_CONTEXT, 10 + CURRENT.x + CURRENT.y, 0.5*CURRENT.x - 0.5*CURRENT.y + 20*(15 - CURRENT.z), 10);
 };
 
 
 var speed = 5;
 function doKeyDown(evt) {
+	if (falling) return;
+
 	switch (evt.keyCode) {
 	case 38:
 		CURRENT.y += speed;
@@ -123,7 +124,7 @@ for (var i = 0; i < board.length; i++) {
 
 
 box_height = 25;
-function onGround() {
+var onGround = function() {
 	x = Math.round(CURRENT.x/10);
 	y = Math.round(CURRENT.y/10);
 	z = Math.round(CURRENT.z/10);
@@ -133,28 +134,34 @@ function onGround() {
 	}
 //	console.log(x + ", " + y + ", " + z);
 	return false;
-}
+};
 
 falling = false;
-function next() {
+var next = function() {
 	if (falling) {
 		CURRENT.z -= 0.3;
 	}
 	if (onGround()) {
 		return;
 	}
-		falling = true;
+	falling = true;
+	BOX_CONTEXT.clearRect(0, 0, WIDTH, HEIGHT);
+	BOX_CONTEXT = layers[0];
 }
 
 layers = [];
 
 window.onload = function () {
+	var layer0 = document.getElementById("layer-0");
 	var layer1 = document.getElementById("layer-1");
 	var layer2 = document.getElementById("layer-2");
+	var cxt0 = layer0.getContext("2d");
 	var cxt1 = layer1.getContext("2d");
 	var cxt2 = layer2.getContext("2d");
+	layers.push(cxt0);
 	layers.push(cxt1);
 	layers.push(cxt2);
+	BOX_CONTEXT = layers[2];
 	redraw();
 
 	window.setInterval(function() { next(); redraw(); }, 
