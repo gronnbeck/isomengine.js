@@ -1,8 +1,8 @@
 define(function() {
 	DIMENSIONS = { 'x': 30, 'y': 30, 'z': 15 };
 	board = {};
-	board.board = new Array(DIMENSIONS.x);
 	board.init = function() {
+		board.board = new Array(DIMENSIONS.x);
 		for (var i = 0; i < DIMENSIONS.x; i++) {
 			board.board[i] = new Array(DIMENSIONS.y);
 			for (var j = 0; j < DIMENSIONS.y; j ++) {

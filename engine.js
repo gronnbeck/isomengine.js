@@ -46,6 +46,19 @@ var box = function(cxt, x, y, size) {
 	tile(cxt, x, y-size, size);
 };
 
+var betabox = function(x,y,size) {
+	layers[0].strokeStyle = "#563500";
+	layers[0].fillStyle = "#3d2602";
+	left(layers[0], x-size, y-size*0.5, size);
+
+	layers[0].fillStyle = "#6e4505";
+	right(layers[0], x+size, y-size*0.5, size);
+	
+	layers[1].fillStyle = "#888";
+	layers[1].strokeStyle = "#777";
+	tile(layers[1], x, y-size, size);
+};
+
 var drawTiles = function(cxt) {
 	for (var i = 0; i < board.length; i++) {
 		for (var j = 0; j < board[i].length; j++) { 
@@ -53,10 +66,7 @@ var drawTiles = function(cxt) {
 				if (board[i][j][k] == 0) {
 					continue;
 				}
-				cxt.fillStyle = "#888";
-				cxt.strokeStyle = "#777"
-				tile(cxt, 
-					10*(i + 1) + 10*j,  
+				betabox(10*(i + 1) + 10*j,  
 					10*i*0.5 - 5*j + (300 - 10*k), 
 					10);	
 			};
@@ -64,43 +74,8 @@ var drawTiles = function(cxt) {
 	};
 };
 
-var drawWalls = function(cxt) {
-	for (var i = 0; i < board.length; i++) {
-		for (var j = 0; j < board[i].length; j++) {
-			for (var k = 0; k < board[i][j].length; k++) {
-				if (board[i][j][k] == 0) {
-					continue;
-				}
-
-				// fix so it properly renders! 
-				// as in: the whole need to have walls
-				cxt.fillStyle = "#563500";
-				cxt.strokeStyle = "#3d2602";
-				if (i == 0) {
-					left(cxt, 
-						10*j, 
-						5+5*j + (300 - 10*k), 
-						10);
-				}
-
-				cxt.strokeStyle = cxt.fillStyle;
-				cxt.fillStyle = "#6e4505";
-				if (j == 0) {
-					right(cxt, 
-						2*10*board.length-10*i,
-						5+5*i + (300 - 10*k), 
-						10);
-				}
-	
-			};
-		};
-	};
-
-};
-
 var drawBoard = function(cxt) {
 	drawTiles(cxt);	
-	drawWalls(cxt);
 };
 
 
