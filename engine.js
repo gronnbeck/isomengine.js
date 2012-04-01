@@ -56,30 +56,15 @@ var betabox = function(x,y,size) {
 	tile(layers[1], x, y-size, size);
 };
 
-var drawTiles = function(cxt) {
-	for (var i = 0; i < board.length; i++) {
-		for (var j = 0; j < board[i].length; j++) { 
-			for (var k = 0; k < board[i][j].length; k++) {		
-				if (board[i][j][k] == 0) {
-					continue;
-				}
-				betabox(10*(i + 1) + 10*j,  
-					10*i*0.5 - 5*j + (300 - 10*k), 
-					10);	
-			};
-		};
-	};
-};
-
 var drawBoard = function(cxt) {
-	drawTiles(cxt);	
+	b.draw(cxt, betabox);	
 };
 
 var BOX_CONTEXT;
 
 var redraw = function() {
 	BOX_CONTEXT.clearRect(0, 0, WIDTH, HEIGHT);
-	if (falling) drawBoard(layers[0]);
+	if (falling) drawBoard(layers[0])
 	BOX_CONTEXT.fillStyle = "#ff00c6";
 	BOX_CONTEXT.strokeStyle = "#000";
 	box(BOX_CONTEXT, 10 + CURRENT.x + CURRENT.y, 0.5*CURRENT.x - 0.5*CURRENT.y + 20*(15 - CURRENT.z), 10);
