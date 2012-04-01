@@ -1,21 +1,11 @@
-require(['board.js']);
+require(['board.js'], function(b) {
 
-DIMENSIONS = { 'x': 30, 'y': 30, 'z': 15 }
+b.init();
+var board = b.init();
+
 CURRENT = { 'x': 50, 'y': 0, 'z': 0 }
 WIDTH = 800;
 HEIGHT = 600;
-
-// init board
-board = new Array(DIMENSIONS.x);
-for (var i = 0; i < DIMENSIONS.x; i++) {
-	board[i] = new Array(DIMENSIONS.y);
-	for (var j = 0; j < DIMENSIONS.y; j ++) {
-		board[i][j] = new Array(DIMENSIONS.z);
-		for (var k = 0; k < DIMENSIONS.z; k++) {
-			board[i][j][k] = 0;
-		};
-	};
-};
 
 var tile = function(cxt, x, y, size) {
 	cxt.beginPath();
@@ -166,7 +156,7 @@ function onGround() {
 		&& x < DIMENSIONS.x && y < DIMENSIONS.y && z < DIMENSIONS.z) {
 		return board[x][y][z] == 1;
 	}
-	console.log(x + ", " + y + ", " + z);
+//	console.log(x + ", " + y + ", " + z);
 	return false;
 }
 
@@ -198,5 +188,6 @@ window.onload = function () {
 	window.addEventListener('keydown', doKeyDown, true);
 };
 
+});
 
 
