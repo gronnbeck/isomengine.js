@@ -1,7 +1,9 @@
 define(function() {
-	DIMENSIONS = { 'x': 30, 'y': 30, 'z': 15 };
+	var TILE_SIZE = 10;
+	var TILE_HEIGHT = TILE_SIZE; // Assuming Cube
+	this.DIMENSIONS = { 'x': 30, 'y': 30, 'z': 15 };
 	this.board = {};
-	this.init = function() {
+	this.init = function() { // Maybe this method should not have to be called explicitly?
 		this.board = new Array(DIMENSIONS.x);
 		for (var i = 0; i < DIMENSIONS.x; i++) {
 			this.board[i] = new Array(DIMENSIONS.y);
@@ -23,9 +25,9 @@ define(function() {
 					if (this.board[i][j][k] == 0) {
 						continue;
 					}
-					tile(10*(i + 1) + 10*j,  
-						10*i*0.5 - 5*j + (300 - 10*k), 
-						10);	
+					tile(TILE_SIZE*(i + 1) + TILE_SIZE*j,  
+						TILE_SIZE*i*0.5 - TILE_SIZE*0.5*j + (300 - TILE_HEIGHT*k), 
+						TILE_SIZE);	
 				};
 			};
 		};
