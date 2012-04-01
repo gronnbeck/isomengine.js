@@ -1,5 +1,9 @@
+require(['board.js']);
+
 DIMENSIONS = { 'x': 30, 'y': 30, 'z': 15 }
 CURRENT = { 'x': 50, 'y': 0, 'z': 0 }
+WIDTH = 800;
+HEIGHT = 600;
 
 // init board
 board = new Array(DIMENSIONS.x);
@@ -109,8 +113,7 @@ var drawBoard = function(cxt) {
 	drawWalls(cxt);
 };
 
-WIDTH = 800;
-HEIGHT = 600;
+
 var redraw = function() {
 	layers[1].clearRect(0, 0, WIDTH, HEIGHT);
 	drawBoard(layers[0]);
@@ -152,8 +155,6 @@ for (var i = 0; i < board.length; i++) {
 			board[i][j][0] = 1;
 	};
 };
-
-
 
 
 box_height = 25;
