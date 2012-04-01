@@ -1,18 +1,18 @@
 define(function() {
 	DIMENSIONS = { 'x': 30, 'y': 30, 'z': 15 };
-	board = {};
-	board.init = function() {
-		board.board = new Array(DIMENSIONS.x);
+	this.board = {};
+	this.init = function() {
+		this.board = new Array(DIMENSIONS.x);
 		for (var i = 0; i < DIMENSIONS.x; i++) {
-			board.board[i] = new Array(DIMENSIONS.y);
+			this.board[i] = new Array(DIMENSIONS.y);
 			for (var j = 0; j < DIMENSIONS.y; j ++) {
-				board.board[i][j] = new Array(DIMENSIONS.z);
+				this.board[i][j] = new Array(DIMENSIONS.z);
 				for (var k = 0; k < DIMENSIONS.z; k++) {
-					board.board[i][j][k] = 0;
+					this.board[i][j][k] = 0;
 				};
 			};
 		};
-		return board.board;
+		return this.board;
 	};
-	return board;
+	return this;
 });
