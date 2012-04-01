@@ -79,8 +79,6 @@ var BOX_CONTEXT;
 
 var redraw = function() {
 	BOX_CONTEXT.clearRect(0, 0, WIDTH, HEIGHT);
-//	layers[2].clearRect(0, 0, WIDTH, HEIGHT);
-	drawBoard(layers[0]);
 	BOX_CONTEXT.fillStyle = "#ff00c6";
 	BOX_CONTEXT.strokeStyle = "#000";
 	box(BOX_CONTEXT, 10 + CURRENT.x + CURRENT.y, 0.5*CURRENT.x - 0.5*CURRENT.y + 20*(15 - CURRENT.z), 10);
@@ -112,7 +110,7 @@ function doKeyDown(evt) {
 };
 
 
-// init the bottom floor
+// init the bottom floor for testing
 for (var i = 0; i < board.length; i++) {
 	for (var j = 0; j < board[i].length; j++) {
 		if (i >= 10 && i <= 15 
@@ -132,7 +130,6 @@ var onGround = function() {
 		&& x < DIMENSIONS.x && y < DIMENSIONS.y && z < DIMENSIONS.z) {
 		return board[x][y][z] == 1;
 	}
-//	console.log(x + ", " + y + ", " + z);
 	return false;
 };
 
@@ -162,6 +159,7 @@ window.onload = function () {
 	layers.push(cxt1);
 	layers.push(cxt2);
 	BOX_CONTEXT = layers[2];
+	drawBoard(layers[0]);
 	redraw();
 
 	window.setInterval(function() { next(); redraw(); }, 
