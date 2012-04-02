@@ -1,28 +1,30 @@
 define(function() {
+	var board = {};
+
 	var TILE_SIZE = 10;
 	var TILE_HEIGHT = TILE_SIZE; // Assuming Cube
-	this.DIMENSIONS = { 'x': 30, 'y': 30, 'z': 15 };
-	this.board = {};
-	this.init = function() { // Maybe this method should not have to be called explicitly?
-		this.board = new Array(DIMENSIONS.x);
-		for (var i = 0; i < DIMENSIONS.x; i++) {
-			this.board[i] = new Array(DIMENSIONS.y);
-			for (var j = 0; j < DIMENSIONS.y; j ++) {
-				this.board[i][j] = new Array(DIMENSIONS.z);
-				for (var k = 0; k < DIMENSIONS.z; k++) {
-					this.board[i][j][k] = 0;
+	board.DIMENSIONS = { 'x': 30, 'y': 30, 'z': 15 };
+	board.board = {};
+	board.init = function() { // Maybe this method should not have to be called explicitly?
+		board.board = new Array(board.DIMENSIONS.x);
+		for (var i = 0; i < board.DIMENSIONS.x; i++) {
+			board.board[i] = new Array(board.DIMENSIONS.y);
+			for (var j = 0; j < board.DIMENSIONS.y; j ++) {
+				board.board[i][j] = new Array(board.DIMENSIONS.z);
+				for (var k = 0; k < board.DIMENSIONS.z; k++) {
+					board.board[i][j][k] = 0;
 				};
 			};
 		};
-		return this.board;
+		return board;
 	};
 
 	
-	this.draw = function(cxt, tile) {
-		for (var i = 0; i < this.board.length; i++) {
-			for (var j = 0; j < this.board[i].length; j++) { 
-				for (var k = 0; k < this.board[i][j].length; k++) {		
-					if (this.board[i][j][k] == 0) {
+	board.draw = function(cxt, tile) {
+		for (var i = 0; i < board.board.length; i++) {
+			for (var j = 0; j < board.board[i].length; j++) { 
+				for (var k = 0; k < board.board[i][j].length; k++) {		
+					if (board.board[i][j][k] == 0) {
 						continue;
 					}
 					tile(TILE_SIZE*(i + 1) + TILE_SIZE*j,  
@@ -33,5 +35,5 @@ define(function() {
 		};
 	};
 
-	return this;
+	return board;
 });
