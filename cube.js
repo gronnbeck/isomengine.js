@@ -44,10 +44,10 @@ define(function () {
 		this.rightLayer = cxt;
 		this.topLayer = cxt;
 		this.POS = { 'x': 50, 'y': 0, 'z': 0 }; 
-		this.draw = function(cxt, x, y, size) {
+		this.draw = function(x, y, size) {
 			cxt.strokeStyle = this.strokeStyle;
-			left(cxt, x-size, y-size*0.5, size, this.leftStyle);
-			right(cxt, x+size, y-size*0.5, size, this.rightStyle);
+			left(this.leftLayer, x-size, y-size*0.5, size, this.leftStyle);
+			right(this.rightLayer, x+size, y-size*0.5, size, this.rightStyle);
 			top(this.topLayer, x, y-size, size, this.topStyle);
 		};
 	};

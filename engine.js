@@ -1,11 +1,7 @@
-require(['board.js', 'cube.js'], function(board) {
+require(['board.js', 'cube.js'], function(board, cube) {
 
 board.init();
-cube.topStyle = "#ff00c6";
-cube.leftStyle = cube.topStyle;
-cube.rightStyle = cube.leftStyle;
-
-//CURRENT = cube.CURRENT;
+var cube;
 WIDTH = 800;
 HEIGHT = 600;
 
@@ -61,9 +57,11 @@ var betabox = function(x,y,size) {
 var BOX_CONTEXT;
 
 var redraw = function() {
-	BOX_CONTEXT.clearRect(0, 0, WIDTH, HEIGHT);
-	if (falling) board.draw(layers[0], betabox);
-	cube.draw(BOX_CONTEXT, 10 + cube.POS.x + cube.POS.y, 
+	cube.topLayer.clearRect(0, 0, WIDTH, HEIGHT);
+	cube.leftLayer.clearRect(0, 0, WIDTH, HEIGHT);
+	cube.rightLayer.clearRect(0, 0, WIDTH, HEIGHT);
+	if (falling) board.draw(layers, betabox);
+	cube.draw(10 + cube.POS.x + cube.POS.y, 
 		0.5*cube.POS.x - 0.5*cube.POS.y + 20*(15 - cube.POS.z), 
 		10);
 };
@@ -126,8 +124,13 @@ var next = function() {
 		return;
 	}
 	falling = true;
-	BOX_CONTEXT.clearRect(0, 0, WIDTH, HEIGHT);
-	BOX_CONTEXT = layers[0];
+	// Add logic for falling behind the board
+	cube.topLayer.clearRect(0, 0, WIDTH, HEIGHT);
+	cube.leftLayer.clearRect(0, 0, WIDTH, HEIGHT);
+	cube.rightLayer.clearRect(0, 0, WIDTH, HEIGHT);
+	cube.topLayer = layers[0];
+	cube.leftLayer = layers[0];
+	cube.rightLayer = layers[0];
 }
 
 layers = [];
@@ -142,8 +145,15 @@ window.onload = function () {
 	layers.push(cxt0);
 	layers.push(cxt1);
 	layers.push(cxt2);
+
+	cube = new cube(cxt2);
+	cube.topStyle = "#ff00c6";
+	cube.leftStyle = cube.topStyle;
+	cube.rightStyle = cube.leftStyle;
+
 	BOX_CONTEXT = layers[2];
-	board.draw(layers[0], betabox);
+	board.draw(layers, betabox);
+
 	redraw();
 
 	window.setInterval(function() { next(); redraw(); }, 
