@@ -1,8 +1,11 @@
-require(['board.js'], function(board) {
+require(['board.js', 'cube.js'], function(board) {
 
 board.init();
+cube.topStyle = "#ff00c6";
+cube.leftStyle = cube.topStyle;
+cube.rightStyle = cube.leftStyle;
 
-CURRENT = { 'x': 50, 'y': 0, 'z': 0 }
+//CURRENT = cube.CURRENT;
 WIDTH = 800;
 HEIGHT = 600;
 
@@ -60,9 +63,9 @@ var BOX_CONTEXT;
 var redraw = function() {
 	BOX_CONTEXT.clearRect(0, 0, WIDTH, HEIGHT);
 	if (falling) board.draw(layers[0], betabox);
-	BOX_CONTEXT.fillStyle = "#ff00c6";
-	BOX_CONTEXT.strokeStyle = "#000";
-	box(BOX_CONTEXT, 10 + CURRENT.x + CURRENT.y, 0.5*CURRENT.x - 0.5*CURRENT.y + 20*(15 - CURRENT.z), 10);
+	cube.draw(BOX_CONTEXT, 10 + cube.CURRENT.x + cube.CURRENT.y, 
+		0.5*cube.CURRENT.x - 0.5*cube.CURRENT.y + 20*(15 - cube.CURRENT.z), 
+		10);
 };
 
 
@@ -72,20 +75,20 @@ function doKeyDown(evt) {
 
 	switch (evt.keyCode) {
 	case 38:
-		CURRENT.y += speed;
-		CURRENT.x -= speed;
+		cube.CURRENT.y += speed;
+		cube.CURRENT.x -= speed;
 		break;
 	case 40:
-		CURRENT.y -= speed;
-		CURRENT.x += speed;
+		cube.CURRENT.y -= speed;
+		cube.CURRENT.x += speed;
 		break;
 	case 37:
-		CURRENT.x -= speed;
-		CURRENT.y -= speed;
+		cube.CURRENT.x -= speed;
+		cube.CURRENT.y -= speed;
 		break;
 	case 39:
-		CURRENT.x += speed;
-		CURRENT.y += speed;
+		cube.CURRENT.x += speed;
+		cube.CURRENT.y += speed;
 		break;
 	}
 };
@@ -104,11 +107,11 @@ for (var i = 0; i < board.DIMENSIONS.x; i++) {
 
 box_height = 25;
 var onGround = function() {
-	x = Math.round(CURRENT.x/10);
-	y = Math.round(CURRENT.y/10);
-	z = Math.round(CURRENT.z/10);
+	x = Math.round(cube.CURRENT.x/10);
+	y = Math.round(cube.CURRENT.y/10);
+	z = Math.round(cube.CURRENT.z/10);
 	if (x >= 0 && y >= 0 && z >= 0 
-		&& x < DIMENSIONS.x && y < DIMENSIONS.y && z < DIMENSIONS.z) {
+		&& x < board.DIMENSIONS.x && y < board.DIMENSIONS.y && z < board.DIMENSIONS.z) {
 		return board.board[x][y][z] == 1;
 	}
 	return false;
