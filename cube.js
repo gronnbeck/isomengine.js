@@ -1,6 +1,6 @@
 define(function () {
-	var top = function(cxt, x, y, size) {
-		cxt.fillStyle = cube.topStyle;
+	var top = function(cxt, x, y, size, color) {
+		cxt.fillStyle = color;
 		cxt.beginPath();
 		cxt.moveTo(x,y);
 		cxt.lineTo(x-size, y+size*0.5);
@@ -9,10 +9,10 @@ define(function () {
 		cxt.closePath();
 		cxt.fill();
 		cxt.stroke();
-	};
+	};	
 
-	var left = function(cxt, x, y, size) {
-		cxt.fillStyle = cube.leftStyle;
+	var left = function(cxt, x, y, size, color) {
+		cxt.fillStyle = color;
 		cxt.beginPath();
 		cxt.moveTo(x,y);
 		cxt.lineTo(x, y+size);
@@ -23,8 +23,8 @@ define(function () {
 		cxt.stroke();
 	};
 
-	var right = function(cxt, x, y, size) {
-		cxt.fillStyle = cube.rightStyle;
+	var right = function(cxt, x, y, size, color) {
+		cxt.fillStyle = color;
 		cxt.beginPath();
 		cxt.moveTo(x,y);
 		cxt.lineTo(x, y+size);
@@ -35,17 +35,21 @@ define(function () {
 		cxt.stroke();
 	};
 
-	cube = {};
-	cube.strokeStyle = "#000";
-	cube.leftStyle = "#000";
-	cube.rightStyle = "#000";
-	cube.topStyle = "#000";
-	cube.POS = { 'x': 50, 'y': 0, 'z': 0 }; 
-	cube.draw = function(cxt, x, y, size) {
-		cxt.strokeStyle = cube.strokeStyle;
-		left(cxt, x-size, y-size*0.5, size);
-		right(cxt, x+size, y-size*0.5, size);
-		top(cxt, x, y-size, size);
+	var cube = function (cxt) {
+		this.strokeStyle = "#000";
+		this.leftStyle = "#000";
+		this.rightStyle = "#000";
+		this.topStyle = "#000";
+		this.leftLayer = cxt;
+		this.rightLayer = cxt;
+		this.topLayer = cxt;
+		this.POS = { 'x': 50, 'y': 0, 'z': 0 }; 
+		this.draw = function(cxt, x, y, size) {
+			cxt.strokeStyle = this.strokeStyle;
+			left(cxt, x-size, y-size*0.5, size, this.leftStyle);
+			right(cxt, x+size, y-size*0.5, size, this.rightStyle);
+			top(this.topLayer, x, y-size, size, this.topStyle);
+		};
 	};
 	
 	return cube;
