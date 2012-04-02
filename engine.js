@@ -63,8 +63,8 @@ var BOX_CONTEXT;
 var redraw = function() {
 	BOX_CONTEXT.clearRect(0, 0, WIDTH, HEIGHT);
 	if (falling) board.draw(layers[0], betabox);
-	cube.draw(BOX_CONTEXT, 10 + cube.CURRENT.x + cube.CURRENT.y, 
-		0.5*cube.CURRENT.x - 0.5*cube.CURRENT.y + 20*(15 - cube.CURRENT.z), 
+	cube.draw(BOX_CONTEXT, 10 + cube.POS.x + cube.POS.y, 
+		0.5*cube.POS.x - 0.5*cube.POS.y + 20*(15 - cube.POS.z), 
 		10);
 };
 
@@ -75,20 +75,20 @@ function doKeyDown(evt) {
 
 	switch (evt.keyCode) {
 	case 38:
-		cube.CURRENT.y += speed;
-		cube.CURRENT.x -= speed;
+		cube.POS.y += speed;
+		cube.POS.x -= speed;
 		break;
 	case 40:
-		cube.CURRENT.y -= speed;
-		cube.CURRENT.x += speed;
+		cube.POS.y -= speed;
+		cube.POS.x += speed;
 		break;
 	case 37:
-		cube.CURRENT.x -= speed;
-		cube.CURRENT.y -= speed;
+		cube.POS.x -= speed;
+		cube.POS.y -= speed;
 		break;
 	case 39:
-		cube.CURRENT.x += speed;
-		cube.CURRENT.y += speed;
+		cube.POS.x += speed;
+		cube.POS.y += speed;
 		break;
 	}
 };
@@ -107,9 +107,9 @@ for (var i = 0; i < board.DIMENSIONS.x; i++) {
 
 box_height = 25;
 var onGround = function() {
-	x = Math.round(cube.CURRENT.x/10);
-	y = Math.round(cube.CURRENT.y/10);
-	z = Math.round(cube.CURRENT.z/10);
+	x = Math.round(cube.POS.x/10);
+	y = Math.round(cube.POS.y/10);
+	z = Math.round(cube.POS.z/10);
 	if (x >= 0 && y >= 0 && z >= 0 
 		&& x < board.DIMENSIONS.x && y < board.DIMENSIONS.y && z < board.DIMENSIONS.z) {
 		return board.board[x][y][z] == 1;
@@ -120,7 +120,7 @@ var onGround = function() {
 falling = false;
 var next = function() {
 	if (falling) {
-		CURRENT.z -= 0.3;
+		cube.POS.z -= 0.3;
 	}
 	if (onGround()) {
 		return;

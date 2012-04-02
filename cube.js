@@ -40,7 +40,7 @@ define(function () {
 	cube.leftStyle = "#000";
 	cube.rightStyle = "#000";
 	cube.topStyle = "#000";
-	cube.CURRENT = { 'x': 50, 'y': 0, 'z': 0 }; 
+	cube.POS = { 'x': 50, 'y': 0, 'z': 0 }; 
 	cube.draw = function(cxt, x, y, size) {
 		cxt.strokeStyle = cube.strokeStyle;
 		left(cxt, x-size, y-size*0.5, size);
