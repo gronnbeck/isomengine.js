@@ -1,68 +1,12 @@
-require(['board.js', 'cube.js'], function(board, cube) {
+require(['board.js', 'brick.js'], function(board, brick) {
 
-board.init();
-var cube;
 WIDTH = 800;
 HEIGHT = 600;
-
-var tile = function(cxt, x, y, size) {
-	cxt.beginPath();
-	cxt.moveTo(x,y);
-	cxt.lineTo(x-size, y+size*0.5);
-	cxt.lineTo(x, y+size);
-	cxt.lineTo(x+size, y+size*0.5);
-	cxt.closePath();
-	cxt.fill();
-	cxt.stroke();
-};
-
-var left = function(cxt, x, y, size) {
-	cxt.beginPath();
-	cxt.moveTo(x,y);
-	cxt.lineTo(x, y+size);
-	cxt.lineTo(x+size, y+size*1.5);
-	cxt.lineTo(x+size, y+size*0.5);
-	cxt.closePath();
-	cxt.fill();
-	cxt.stroke();
-};
-
-var right = function(cxt, x, y, size) {
-	cxt.beginPath();
-	cxt.moveTo(x,y);
-	cxt.lineTo(x, y+size);
-	cxt.lineTo(x-size, y+size*1.5);
-	cxt.lineTo(x-size, y+size*0.5);
-	cxt.closePath();
-	cxt.fill();
-	cxt.stroke();
-};
-
-var box = function(cxt, x, y, size) {
-	left(cxt, x-size, y-size*0.5, size);
-	right(cxt, x+size, y-size*0.5, size);
-	tile(cxt, x, y-size, size);
-};
-
-var betabox = function(x,y,size) {
-	layers[0].strokeStyle = "#563500";
-	layers[0].fillStyle = "#3d2602";
-	left(layers[0], x-size, y-size*0.5, size);
-	right(layers[0], x+size, y-size*0.5, size);
-	layers[1].fillStyle = "#888";
-	layers[1].strokeStyle = "#777";
-	tile(layers[1], x, y-size, size);
-};
-
-var BOX_CONTEXT;
-
 var redraw = function() {
-	cube.topLayer.clearRect(0, 0, WIDTH, HEIGHT);
-	cube.leftLayer.clearRect(0, 0, WIDTH, HEIGHT);
-	cube.rightLayer.clearRect(0, 0, WIDTH, HEIGHT);
-	if (falling) board.draw(layers, betabox);
-	cube.draw(10 + cube.POS.x + cube.POS.y, 
-		0.5*cube.POS.x - 0.5*cube.POS.y + 20*(15 - cube.POS.z), 
+	brick.clearRect(0, 0, WIDTH, HEIGHT);
+	if (falling) board.draw(layers);
+	brick.draw(10 + brick.POS.x + brick.POS.y, 
+		0.5*brick.POS.x - 0.5*brick.POS.y + 20*(15 - brick.POS.z), 
 		10);
 };
 
@@ -73,20 +17,20 @@ function doKeyDown(evt) {
 
 	switch (evt.keyCode) {
 	case 38:
-		cube.POS.y += speed;
-		cube.POS.x -= speed;
+		brick.POS.y += speed;
+		brick.POS.x -= speed;
 		break;
 	case 40:
-		cube.POS.y -= speed;
-		cube.POS.x += speed;
+		brick.POS.y -= speed;
+		brick.POS.x += speed;
 		break;
 	case 37:
-		cube.POS.x -= speed;
-		cube.POS.y -= speed;
+		brick.POS.x -= speed;
+		brick.POS.y -= speed;
 		break;
 	case 39:
-		cube.POS.x += speed;
-		cube.POS.y += speed;
+		brick.POS.x += speed;
+		brick.POS.y += speed;
 		break;
 	}
 };
@@ -105,9 +49,9 @@ for (var i = 0; i < board.DIMENSIONS.x; i++) {
 
 box_height = 25;
 var onGround = function() {
-	x = Math.round(cube.POS.x/10);
-	y = Math.round(cube.POS.y/10);
-	z = Math.round(cube.POS.z/10);
+	x = Math.round(brick.POS.x/10);
+	y = Math.round(brick.POS.y/10);
+	z = Math.round(brick.POS.z/10);
 	if (x >= 0 && y >= 0 && z >= 0 
 		&& x < board.DIMENSIONS.x && y < board.DIMENSIONS.y && z < board.DIMENSIONS.z) {
 		return board.board[x][y][z] == 1;
@@ -118,19 +62,16 @@ var onGround = function() {
 falling = false;
 var next = function() {
 	if (falling) {
-		cube.POS.z -= 0.3;
+		brick.POS.z -= 0.3;
 	}
 	if (onGround()) {
 		return;
 	}
 	falling = true;
-	// Add logic for falling behind the board
-	cube.topLayer.clearRect(0, 0, WIDTH, HEIGHT);
-	cube.leftLayer.clearRect(0, 0, WIDTH, HEIGHT);
-	cube.rightLayer.clearRect(0, 0, WIDTH, HEIGHT);
-	cube.topLayer = layers[0];
-	cube.leftLayer = layers[0];
-	cube.rightLayer = layers[0];
+	brick.clearRect(0,0, WIDTH, HEIGHT);
+	brick.topLayer = layers[0];
+	brick.leftLayer = layers[0];
+	brick.rightLayer = layers[0];
 }
 
 layers = [];
@@ -146,13 +87,12 @@ window.onload = function () {
 	layers.push(cxt1);
 	layers.push(cxt2);
 
-	cube = new cube(cxt2);
-	cube.topStyle = "#ff00c6";
-	cube.leftStyle = cube.topStyle;
-	cube.rightStyle = cube.leftStyle;
+	brick = new brick(cxt2);
+	brick.topStyle = "#ff00c6";
+	brick.leftStyle = brick.topStyle;
+	brick.rightStyle = brick.leftStyle;
 
-	BOX_CONTEXT = layers[2];
-	board.draw(layers, betabox);
+	board.draw(layers);
 
 	redraw();
 

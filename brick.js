@@ -50,6 +50,11 @@ define(function () {
 			right(this.rightLayer, x+size, y-size*0.5, size, this.rightStyle);
 			top(this.topLayer, x, y-size, size, this.topStyle);
 		};
+		this.clearRect = function(x, y, w, h) {
+			this.topLayer.clearRect(x, y, w, h);
+			this.leftLayer.clearRect(x, y, w, h);
+			this.rightLayer.clearRect(x, y, w, h);
+		};
 	};
 	
 	return cube;

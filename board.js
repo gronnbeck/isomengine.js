@@ -1,26 +1,24 @@
-define(['cube'], function(cube) {
+define(function(require) {
+	var cube = require('brick');
+
 	var TILE_SIZE = 10;
 	var TILE_HEIGHT = TILE_SIZE; // Assuming Cube
 	
 	var board = {};
 	board.DIMENSIONS = { 'x': 30, 'y': 30, 'z': 15 };
 	board.board = {};
-	board.init = function() { // Maybe this method should not have to be called explicitly?
-		board.board = new Array(board.DIMENSIONS.x);
-		for (var i = 0; i < board.DIMENSIONS.x; i++) {
-			board.board[i] = new Array(board.DIMENSIONS.y);
-			for (var j = 0; j < board.DIMENSIONS.y; j ++) {
-				board.board[i][j] = new Array(board.DIMENSIONS.z);
-				for (var k = 0; k < board.DIMENSIONS.z; k++) {
-					board.board[i][j][k] = 0;
-				};
+	board.board = new Array(board.DIMENSIONS.x);
+	for (var i = 0; i < board.DIMENSIONS.x; i++) {
+		board.board[i] = new Array(board.DIMENSIONS.y);
+		for (var j = 0; j < board.DIMENSIONS.y; j ++) {
+			board.board[i][j] = new Array(board.DIMENSIONS.z);
+			for (var k = 0; k < board.DIMENSIONS.z; k++) {
+				board.board[i][j][k] = 0;
 			};
 		};
-		return board;
 	};
 
-	var cube;
-	board.draw = function(layers, tile) {
+	board.draw = function(layers) {
 		c = new cube(layers[0]);
 		c.strokeStyle = "#563500";
 		c.topStyle = "#888";
