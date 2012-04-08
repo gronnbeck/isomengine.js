@@ -35,7 +35,7 @@ define(function () {
 		cxt.stroke();
 	};
 
-	var cube = function (cxt) {
+	return function (cxt) {
 		this.strokeStyle = "#000";
 		this.leftStyle = "#000";
 		this.rightStyle = "#000";
@@ -56,6 +56,4 @@ define(function () {
 			this.rightLayer.clearRect(x, y, w, h);
 		};
 	};
-	
-	return cube;
 });
