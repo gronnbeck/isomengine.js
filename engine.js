@@ -59,7 +59,7 @@ var onGround = function() {
 	return false;
 };
 
-falling = false;
+var falling = false;
 var next = function() {
 	if (falling) {
 		brick.POS.z -= 0.3;
@@ -67,12 +67,16 @@ var next = function() {
 	if (onGround()) {
 		return;
 	}
+	setFalling();
+}
+
+var setFalling = function() {
 	falling = true;
 	brick.clearRect(0,0, WIDTH, HEIGHT);
 	brick.topLayer = layers[0];
 	brick.leftLayer = layers[0];
 	brick.rightLayer = layers[0];
-}
+};
 
 layers = [];
 
