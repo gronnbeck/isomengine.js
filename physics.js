@@ -12,7 +12,7 @@ define(function(require) {
 				'tempForces'	: []
 			});
 		};
-		this.step = function() {
+		this.tick = function() {
 				objects.each(function(k, object) {
 					for (i in object.forces) {
 						var force = object.forces[i];

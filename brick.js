@@ -43,7 +43,8 @@ define(function () {
 		this.leftLayer = cxt;
 		this.rightLayer = cxt;
 		this.topLayer = cxt;
-		this.POS = { 'x': 50, 'y': 0, 'z': 0 }; 
+		this.pos = { 'x': 50, 'y': 0, 'z': 0 }; 
+		this.speed = { 'x': 0, 'y': 0, 'z': 0 };
 		this.draw = function(x, y, size) {
 			cxt.strokeStyle = this.strokeStyle;
 			left(this.leftLayer, x-size, y-size*0.5, size, this.leftStyle);
@@ -54,6 +55,11 @@ define(function () {
 			this.topLayer.clearRect(x, y, w, h);
 			this.leftLayer.clearRect(x, y, w, h);
 			this.rightLayer.clearRect(x, y, w, h);
+		};
+		this.update = function () {
+			for (key in this.speed) {
+				this.pos[key] += this.speed[key];
+			}
 		};
 	};
 });
