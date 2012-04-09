@@ -1,4 +1,7 @@
-require(['board.js', 'brick.js'], function(board, brick) {
+require(['board.js', 'brick.js', 'physics.js'],
+	function(board, brick, physics) {
+
+var phys;
 
 WIDTH = 800;
 HEIGHT = 600;
@@ -61,8 +64,9 @@ var onGround = function() {
 
 var falling = false;
 var next = function() {
+	phys.step();	
 	if (falling) {
-		brick.POS.z -= 0.3;
+		return;
 	}
 	if (onGround()) {
 		return;
@@ -76,11 +80,16 @@ var setFalling = function() {
 	brick.topLayer = layers[0];
 	brick.leftLayer = layers[0];
 	brick.rightLayer = layers[0];
+	phys.get(brick).forces.push(gravity);
+};
+
+var gravity = function (object) {
+	object.POS.z -= 0.3;
 };
 
 layers = [];
-
 window.onload = function () {
+	phys = new physics;
 	var layer0 = document.getElementById("layer-0");
 	var layer1 = document.getElementById("layer-1");
 	var layer2 = document.getElementById("layer-2");
@@ -95,6 +104,7 @@ window.onload = function () {
 	brick.topStyle = "#ff00c6";
 	brick.leftStyle = brick.topStyle;
 	brick.rightStyle = brick.leftStyle;
+	phys.register(brick, true, []);
 
 	board.draw(layers);
 
