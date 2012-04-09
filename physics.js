@@ -17,6 +17,7 @@ define(function(require) {
 						var force = object.forces[i];
 						force(object.object);
 					};
+					object.forces = [];
 				});
 		};
 		this.get = function(object) {

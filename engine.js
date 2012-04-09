@@ -1,6 +1,5 @@
 require(['board.js', 'brick.js', 'physics.js'],
 	function(board, brick, physics) {
-
 var phys;
 
 WIDTH = 800;
@@ -57,13 +56,20 @@ var onGround = function() {
 	z = Math.round(brick.POS.z/10);
 	if (x >= 0 && y >= 0 && z >= 0 
 		&& x < board.DIMENSIONS.x && y < board.DIMENSIONS.y && z < board.DIMENSIONS.z) {
-		return board.board[x][y][z] == 1;
+		if (board.board[x][y][z] == 1) {
+			phys.get(brick).forces.push(inv_gravity);
+			return true;
+		} 
+		else {
+			return false;
+		}
 	}
 	return false;
 };
 
 var falling = false;
 var next = function() {
+	phys.get(brick).forces.push(gravity);
 	phys.step();	
 	if (falling) {
 		return;
@@ -80,11 +86,14 @@ var setFalling = function() {
 	brick.topLayer = layers[0];
 	brick.leftLayer = layers[0];
 	brick.rightLayer = layers[0];
-	phys.get(brick).forces.push(gravity);
 };
 
+// example force
 var gravity = function (object) {
 	object.POS.z -= 0.3;
+};
+var inv_gravity = function (object) {
+	object.POS.z += 0.3;
 };
 
 layers = [];
