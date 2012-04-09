@@ -6,9 +6,10 @@ define(function(require) {
 		var PASS_THROUGH = 0;
 		this.register = function(object, solid, forces) {
 			 objects.setItem(object, {
-			 	'object' : object,
-				'solid'  : solid,
-				'forces' : forces
+			 	'object' 		: object,
+				'solid' 	 	: solid,
+				'forces'		: forces,
+				'tempForces'	: []
 			});
 		};
 		this.step = function() {
@@ -17,7 +18,11 @@ define(function(require) {
 						var force = object.forces[i];
 						force(object.object);
 					};
-					object.forces = [];
+					for (i in object.tempForces) {
+						var force = object.tempForces[i];
+						force(object.object);
+					};
+					object.tempForces = [];
 				});
 		};
 		this.get = function(object) {

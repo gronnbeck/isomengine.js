@@ -57,7 +57,7 @@ var onGround = function() {
 	if (x >= 0 && y >= 0 && z >= 0 
 		&& x < board.DIMENSIONS.x && y < board.DIMENSIONS.y && z < board.DIMENSIONS.z) {
 		if (board.board[x][y][z] == 1) {
-			phys.get(brick).forces.push(inv_gravity);
+			phys.get(brick).tempForces.push(inv_gravity);
 			return true;
 		} 
 		else {
@@ -69,7 +69,6 @@ var onGround = function() {
 
 var falling = false;
 var next = function() {
-	phys.get(brick).forces.push(gravity);
 	phys.step();	
 	if (falling) {
 		return;
@@ -113,8 +112,7 @@ window.onload = function () {
 	brick.topStyle = "#ff00c6";
 	brick.leftStyle = brick.topStyle;
 	brick.rightStyle = brick.leftStyle;
-	phys.register(brick, true, []);
-
+	phys.register(brick, true, [gravity]);
 	board.draw(layers);
 
 	redraw();
