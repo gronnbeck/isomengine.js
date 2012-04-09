@@ -1,4 +1,4 @@
-DISCLAIMER: I'm no expert in developing games, neither I'm a javascript guru. I simply want to try to create a browser game, while learning some advanced features of javascript. 
+DISCLAIMER: I'm no expert game developer, neither I'm a javascript guru. I simply want to try to create a browser game, while learning some advanced features of javascript. 
 
 Trying to create an game engine for rendering isometric games in the browser.
 The current master branch is experimental, and I'm trying to understand how the do the overall design.
