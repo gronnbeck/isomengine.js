@@ -28,8 +28,5 @@ define(function(require) {
 		this.get = function(object) {
 			return objects.getItem(object);
 		};
-		this.debug_objects = function() {
-			return objects;
-		};
 	};
 });
