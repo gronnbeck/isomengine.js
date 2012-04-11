@@ -57,8 +57,8 @@ for (var i = 0; i < board.DIMENSIONS.x; i++) {
 // detection mechanism
 var onGround = function() {
 	// we divide by BRICK_SIZE = 10
-	x = Math.round(brick.pos.x/10);
-	y = Math.round(brick.pos.y/10);
+	x = Math.round(brick.pos.x/brick.size);
+	y = Math.round(brick.pos.y/brick.size);
 	z = Math.round(brick.pos.z);
 	if (x >= 0 && y >= 0 && z >= 0 
 		&& x < board.DIMENSIONS.x && y < board.DIMENSIONS.y && z < board.DIMENSIONS.z) {
