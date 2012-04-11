@@ -43,9 +43,11 @@ define(function () {
 		this.leftLayer = cxt;
 		this.rightLayer = cxt;
 		this.topLayer = cxt;
+		this.size = 10;
 		this.pos = { 'x': 50, 'y': 0, 'z': 0 }; 
 		this.speed = { 'x': 0, 'y': 0, 'z': 0 };
-		this.draw = function(x, y, size) {
+		this.draw = function(x, y) {
+			var size = this.size;
 			cxt.strokeStyle = this.strokeStyle;
 			left(this.leftLayer, x-size, y-size*0.5, size, this.leftStyle);
 			right(this.rightLayer, x+size, y-size*0.5, size, this.rightStyle);

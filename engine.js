@@ -8,8 +8,7 @@ var redraw = function() {
 	brick.clearRect(0, 0, WIDTH, HEIGHT);
 	if (falling) board.draw(layers);
 	brick.draw(10 + brick.pos.x + brick.pos.y, 
-		0.5*brick.pos.x - 0.5*brick.pos.y + 20*(15 - brick.pos.z), 
-		10);
+		0.5*brick.pos.x - 0.5*brick.pos.y + 20*(15 - brick.pos.z));
 };
 
 
