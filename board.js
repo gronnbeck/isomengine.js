@@ -1,5 +1,5 @@
 define(function(require) {
-	var cube = require('brick');
+	var brick = require('brick');
 
 	var TILE_SIZE = 10;
 	var TILE_HEIGHT = TILE_SIZE; // Assuming Cube
@@ -19,7 +19,7 @@ define(function(require) {
 	};
 
 	board.draw = function(layers) {
-		c = new cube(layers[0]);
+		c = new brick(layers[0]);
 		c.strokeStyle = "#563500";
 		c.topStyle = "#888";
 		c.leftStyle = "#3d2602";
@@ -33,8 +33,7 @@ define(function(require) {
 						continue;
 					}
 					c.draw(TILE_SIZE*(i + 1) + TILE_SIZE*j,  
-						TILE_SIZE*i*0.5 - TILE_SIZE*0.5*j + (300 - TILE_HEIGHT*k), 
-						TILE_SIZE);	
+						TILE_SIZE*i*0.5 - TILE_SIZE*0.5*j + (300 - TILE_HEIGHT*k));	
 				};
 			};
 		};
