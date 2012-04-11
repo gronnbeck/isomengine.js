@@ -1,4 +1,4 @@
-require(['board.js', 'brick.js', 'physics.js'],
+require(['modules/board.js', 'modules/brick.js', 'modules/physics.js'],
 	function(board, brick, physics) {
 var phys;
 
