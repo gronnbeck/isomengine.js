@@ -1,5 +1,5 @@
 define(function(require) {
-	var brick = require('brick');
+	var brick = require('modules/brick');
 
 	var TILE_SIZE = 10;
 	var TILE_HEIGHT = TILE_SIZE; // Assuming Cube
