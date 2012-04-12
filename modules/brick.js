@@ -1,4 +1,4 @@
-define(function (require) {
+define(function () {
 	// Should move this function into a helper module
 	var top = function(cxt, x, y, size, color) {
 		cxt.fillStyle = color;
