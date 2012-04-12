@@ -1,6 +1,36 @@
-require(['modules/board.js', 'modules/brick.js', 'modules/physics.js'],
-	function(board, brick, physics) {
+require(['modules/board.js', 'modules/brick.js', 'modules/physics.js'], 
+function(board, brick, physics, hash) {
+
 var phys;
+var layers;
+window.onload = function () {
+	phys = new physics;
+	layers = [];
+	// TODO: find a better way to find and handle layers and cxts
+	var layer0 = document.getElementById("layer-0");
+	var layer1 = document.getElementById("layer-1");
+	var layer2 = document.getElementById("layer-2");
+	var cxt0 = layer0.getContext("2d");
+	var cxt1 = layer1.getContext("2d");
+	var cxt2 = layer2.getContext("2d");
+	layers.push(cxt0);
+	layers.push(cxt1);
+	layers.push(cxt2);
+
+	brick = new brick(cxt2);
+	brick.topStyle = "#ff00c6";
+	brick.leftStyle = brick.topStyle;
+	brick.rightStyle = brick.leftStyle;
+	phys.register(brick, true, [physics.forces.gravity]);
+	board.draw(layers);
+
+	redraw();
+
+	window.setInterval(function() { next(); redraw(); }, 
+		100/12); 
+	
+	window.addEventListener('keydown', doKeyDown, true);
+};
 
 WIDTH = 800;
 HEIGHT = 600;
@@ -53,30 +83,13 @@ for (var i = 0; i < board.DIMENSIONS.x; i++) {
 	};
 };
 
-// TODO: This method should be a part of some collision 
-// detection mechanism
-var onGround = function() {
-	// we divide by BRICK_SIZE = 10
-	x = Math.round(brick.pos.x/brick.size);
-	y = Math.round(brick.pos.y/brick.size);
-	z = Math.round(brick.pos.z);
-	if (x >= 0 && y >= 0 && z >= 0 
-		&& x < board.DIMENSIONS.x && y < board.DIMENSIONS.y && z < board.DIMENSIONS.z) {
-		if (board.board[x][y][z] == 1) {
-			phys.get(brick).tempForces.push(inv_gravity);
-			return true;
-		} 
-		else {
-			return false;
-		}
-	}
-	return false;
-};
 
 var falling = false;
 var next = function() {
 	brick.update();
-	onGround();
+	// TODO: This method should be a part of some collision 
+	// detection mechanism
+	brick.onGround(board, phys);
 	phys.tick();
 //	TODO reintroduce falling in another way. The falling semantics
 //	changed when I introduced physics and forces
@@ -89,51 +102,6 @@ var setFalling = function() {
 	brick.topLayer = layers[0];
 	brick.leftLayer = layers[0];
 	brick.rightLayer = layers[0];
-};
-
-// example force (as for now). A force such sa gravity should just
-// affect the speed of the object. Just like accerelation affects the
-// speed of an object.
-var gravity = function (object) {
-	object.speed.z -= 0.3;
-};
-var inv_gravity = function (object) {
-	object.speed.z += 0.3;
-	if (object.speed.z < 0) {
-		object.speed.z = 0;
-		// a hack to fix the rounding errors. So the object lands on a 
-		// "whole" value of z. Look into this later
-		object.pos.z = Math.round(object.pos.z);
-	}
-};
-
-layers = [];
-window.onload = function () {
-	phys = new physics;
-	// TODO: find a better way to discover and handle layers and cxts
-	var layer0 = document.getElementById("layer-0");
-	var layer1 = document.getElementById("layer-1");
-	var layer2 = document.getElementById("layer-2");
-	var cxt0 = layer0.getContext("2d");
-	var cxt1 = layer1.getContext("2d");
-	var cxt2 = layer2.getContext("2d");
-	layers.push(cxt0);
-	layers.push(cxt1);
-	layers.push(cxt2);
-
-	brick = new brick(cxt2);
-	brick.topStyle = "#ff00c6";
-	brick.leftStyle = brick.topStyle;
-	brick.rightStyle = brick.leftStyle;
-	phys.register(brick, true, [gravity]);
-	board.draw(layers);
-
-	redraw();
-
-	window.setInterval(function() { next(); redraw(); }, 
-		100/12); 
-	
-	window.addEventListener('keydown', doKeyDown, true);
 };
 
 });

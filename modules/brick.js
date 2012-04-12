@@ -1,4 +1,5 @@
-define(function () {
+define(function (require) {
+	// Should move this function into a helper module
 	var top = function(cxt, x, y, size, color) {
 		cxt.fillStyle = color;
 		cxt.beginPath();
@@ -44,8 +45,30 @@ define(function () {
 		this.rightLayer = cxt;
 		this.topLayer = cxt;
 		this.size = 10;
-		this.pos = { 'x': 50, 'y': 0, 'z': 0 }; 
+		this.pos = { 'x': 0, 'y': 0, 'z': 0 }; 
 		this.speed = { 'x': 0, 'y': 0, 'z': 0 };
+		// In lack of a better place to put it.
+		// Moved it from engine.js. However, I don't like that a method
+		// which is dependet upon board (and board again are dependent on this module)
+		// is in this class. However, to write brick.onGround looks very neat. 
+		// We'll see if a better place to moved this method appears.
+		this.onGround = function(board, phys) {
+			var brick = this;
+			x = Math.round(this.pos.x/this.size);
+			y = Math.round(this.pos.y/this.size);
+			z = Math.round(this.pos.z);
+			if (x >= 0 && y >= 0 && z >= 0 
+				&& x < board.DIMENSIONS.x && y < board.DIMENSIONS.y && z < board.DIMENSIONS.z) {
+				if (board.board[x][y][z] == 1) {
+					phys.get(this).addTempForce('inv_gravity');
+					return true;
+				} 
+				else {
+					return false;
+				}
+			}
+			return false;
+		};
 		this.draw = function(x, y) {
 			var size = this.size;
 			cxt.strokeStyle = this.strokeStyle;
