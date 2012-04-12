@@ -1,5 +1,5 @@
 define(function(require) {
-// TODO: Make this a class
+// TODO: Make this a class. Then merge with master
 	var board = require('modules/board');
 	var brick = require('modules/brick');
 	var physics = require('modules/physics');
