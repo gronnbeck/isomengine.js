@@ -1,7 +1,6 @@
 require(['modules/board.js', 'modules/brick.js', 'modules/physics.js'], 
 function(board, brick, physics) {
 
-
 var phys;
 var layers;
 window.onload = function () {
