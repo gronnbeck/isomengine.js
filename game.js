@@ -1,5 +1,5 @@
-require(['engine.js', 'config.js'], function (engine, config) {
-	var game = new config.game(engine);	
+require(['config.js'], function (config) {
+	var game = new config.game();	
 	window.onload = function() {
 		game.run();
 	}

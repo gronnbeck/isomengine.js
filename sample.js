@@ -1,6 +1,6 @@
-define(function () {
-	return function SampleGame(engine) {
-		this.engine = engine;
+define(function (require) {
+	return function SampleGame() {
+		var engine = require('engine');
 		this.run = function() {
 			console.log('Running');
 		};
