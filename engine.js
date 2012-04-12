@@ -1,11 +1,20 @@
-require(['modules/board.js', 'modules/brick.js', 'modules/physics.js'], 
-function(board, brick, physics) {
+define(function(require) {
+// TODO: Make this a class
+	var board = require('modules/board');
+	var brick = require('modules/brick');
+	var physics = require('modules/physics');
 
-var phys;
-var layers;
-window.onload = function () {
-	phys = new physics;
-	layers = [];
+	var phys = new physics();
+	var layers = [];
+
+var redraw = function() {
+	brick.clearRect(0, 0, WIDTH, HEIGHT);
+	if (falling) board.draw(layers);
+	brick.draw(10 + brick.pos.x + brick.pos.y, 
+		0.5*brick.pos.x - 0.5*brick.pos.y + 20*(15 - brick.pos.z));
+};
+
+var run = function() {
 	// TODO: find a better way to find and handle layers and cxts
 	var layer0 = document.getElementById("layer-0");
 	var layer1 = document.getElementById("layer-1");
@@ -31,15 +40,8 @@ window.onload = function () {
 	
 	window.addEventListener('keydown', doKeyDown, true);
 };
-
-WIDTH = 800;
-HEIGHT = 600;
-var redraw = function() {
-	brick.clearRect(0, 0, WIDTH, HEIGHT);
-	if (falling) board.draw(layers);
-	brick.draw(10 + brick.pos.x + brick.pos.y, 
-		0.5*brick.pos.x - 0.5*brick.pos.y + 20*(15 - brick.pos.z));
-};
+	WIDTH = 800;
+	HEIGHT = 600;
 
 
 var speed = 5;
@@ -104,4 +106,5 @@ var setFalling = function() {
 	brick.rightLayer = layers[0];
 };
 
+run();
 });
