@@ -1,12 +1,11 @@
 define(function(require) {
-	return function() {
-		// TODO: Make this a class. Then merge with master
-		var board = require('modules/board');
-		var brick = require('modules/brick');
-		var physics = require('modules/physics');
+	var board = require('modules/board');
+	var brick = require('modules/brick');
+	var physics = require('modules/physics');
 
+	var Engine = function Engine(layers) {
+		// TODO: Make this a class. Then merge with master
 		var phys = new physics();
-		var layers = [];
 
 		var redraw = function() {
 			brick.clearRect(0, 0, WIDTH, HEIGHT);
@@ -17,23 +16,12 @@ define(function(require) {
 
 		this.run = function() {
 			// TODO: find a better way to find and handle layers and cxts
-			var layer0 = document.getElementById("layer-0");
-			var layer1 = document.getElementById("layer-1");
-			var layer2 = document.getElementById("layer-2");
-			var cxt0 = layer0.getContext("2d");
-			var cxt1 = layer1.getContext("2d");
-			var cxt2 = layer2.getContext("2d");
-			layers.push(cxt0);
-			layers.push(cxt1);
-			layers.push(cxt2);
-
-			brick = new brick(cxt2);
+			brick = new brick(layers[2]);
 			brick.topStyle = "#ff00c6";
 			brick.leftStyle = brick.topStyle;
 			brick.rightStyle = brick.leftStyle;
 			phys.register(brick, true, [physics.forces.gravity]);
 			board.draw(layers);
-
 			redraw();
 
 			window.setInterval(function() { next(); redraw(); }, 
@@ -41,8 +29,8 @@ define(function(require) {
 			
 			window.addEventListener('keydown', doKeyDown, true);
 		};
-			WIDTH = 800;
-			HEIGHT = 600;
+		WIDTH = 800;
+		HEIGHT = 600;
 
 
 		var speed = 5;
@@ -106,5 +94,6 @@ define(function(require) {
 			brick.leftLayer = layers[0];
 			brick.rightLayer = layers[0];
 		};
-	}
+	};
+	return Engine;
 });
