@@ -1,4 +1,5 @@
 define(function(require) {
+return function() {
 // TODO: Make this a class. Then merge with master
 	var board = require('modules/board');
 	var brick = require('modules/brick');
@@ -14,7 +15,7 @@ var redraw = function() {
 		0.5*brick.pos.x - 0.5*brick.pos.y + 20*(15 - brick.pos.z));
 };
 
-var run = function() {
+this.run = function() {
 	// TODO: find a better way to find and handle layers and cxts
 	var layer0 = document.getElementById("layer-0");
 	var layer1 = document.getElementById("layer-1");
@@ -98,7 +99,7 @@ var next = function() {
 //	setFalling();
 }
 
-var setFalling = function() {
+this.setFalling = function() {
 //	falling = true;
 	brick.clearRect(0,0, WIDTH, HEIGHT);
 	brick.topLayer = layers[0];
@@ -106,5 +107,4 @@ var setFalling = function() {
 	brick.rightLayer = layers[0];
 };
 
-run();
-});
+}});
