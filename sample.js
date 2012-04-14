@@ -1,8 +1,10 @@
 define(function (require) {
+	var Engine = require('engine');
 	return function SampleGame() {
-		var engine = require('engine');
+		var engine = new Engine();
 		this.run = function() {
 			console.log('Running');
+			engine.run();
 		};
 	};
 });
