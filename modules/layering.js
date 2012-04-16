@@ -8,7 +8,7 @@ define(function (require) {
 				"' width='800' height='600'></canvas>"; 
 		}
      	$('body').html(layersHtml);
-		// TODO: Must fix that the CSS/style is also appended (z-index)
+		// TODO: Must fix that the CSS/style is also appends (z-index)
 		var	layers = [];
 		for (var i = 0; i < NO_LAYERS; i ++) {
 			var canvas = document.getElementById("layer-" + i);

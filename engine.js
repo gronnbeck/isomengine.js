@@ -57,7 +57,7 @@ define(function(require) {
 			case 32:
 				// a more natural way of introducing jumping.
 				phys.get(brick).tempForces.push(function (object) {
-					object.speed.z += 1; 
+					object.speed.z += 1.5; 
 				});
 				
 			}

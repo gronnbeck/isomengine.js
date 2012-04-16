@@ -2,7 +2,7 @@ define(function() {
 	// Load some sort of configuration here
 	var forces = function Forces() {
 		this.gravity = function (object) {
-			object.speed.z -= 0.3;
+			object.speed.z -= 0.2;
 		};
 		this.inv_gravity = function (object) {
 			if (Math.round(object.speed.z) <= 0) {
@@ -13,7 +13,7 @@ define(function() {
 				object.pos.z = Math.round(object.pos.z);
 				return;
 			}
-			object.speed.z += 0.5;
+			//object.speed.z += 0.3;
 
 		};
 	};
