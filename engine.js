@@ -13,11 +13,6 @@ define(function(require) {
 		var redraw = function() {
 			brick.prototype.clearRect(0, 0, WIDTH, HEIGHT);
 			if (falling) board.draw(layers);
-			// TODO The transposing of a brick should be moved in to the
-			// brick.draw()-method itself, and should not be explicitly typed here.
-			// Have to be careful when doing this refactoring. Board.js is also 
-			// dependent upon brick.draw, and will also be affected by this change.
-			// Probably have to change the brick.onGround() function as well. 
 			brick.draw();
 		};
 
