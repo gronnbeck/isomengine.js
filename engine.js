@@ -1,15 +1,22 @@
 define(function(require) {
+	// TODO Adding board and brick to the game should be done from
+	// the GameSample module (or maybe a class that GameSample uses)
+	// But should definitely not be spesified in the engine
 	var board = require('modules/board');
 	var brick = require('modules/brick');
 	var physics = require('modules/physics');
 
 	var Engine = function Engine(layers) {
-		// TODO: Make this a class. Then merge with master
 		var phys = new physics();
 
 		var redraw = function() {
 			brick.clearRect(0, 0, WIDTH, HEIGHT);
 			if (falling) board.draw(layers);
+			// TODO The transposing of a brick should be moved in to the
+			// brick.draw()-method itself, and should not be explicitly typed here.
+			// Have to be careful when doing this refactoring. Board.js is also 
+			// dependent upon brick.draw, and will also be affected by this change.
+			// Probably have to change the brick.onGround() function as well. 
 			brick.draw(10 + brick.pos.x + brick.pos.y, 
 				0.5*brick.pos.x - 0.5*brick.pos.y + 20*(15 - brick.pos.z));
 		};
@@ -29,9 +36,21 @@ define(function(require) {
 			
 			window.addEventListener('keydown', doKeyDown, true);
 		};
+		var falling = false;
+
+		var next = function() {
+			brick.update();
+			// TODO: This method should be a part of some collision 
+			// detection mechanism
+			brick.onGround(board, phys);
+			phys.tick();
+		//	TODO reintroduce falling in another way. The falling semantics
+		//	changed when I introduced physics and forces
+		//	setFalling();
+		}
+
 		WIDTH = 800;
 		HEIGHT = 600;
-
 
 		var speed = 5;
 		function doKeyDown(evt) {
@@ -74,18 +93,6 @@ define(function(require) {
 			};
 		};
 
-
-		var falling = false;
-		var next = function() {
-			brick.update();
-			// TODO: This method should be a part of some collision 
-			// detection mechanism
-			brick.onGround(board, phys);
-			phys.tick();
-		//	TODO reintroduce falling in another way. The falling semantics
-		//	changed when I introduced physics and forces
-		//	setFalling();
-		}
 
 		this.setFalling = function() {
 		//	falling = true;
