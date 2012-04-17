@@ -3,31 +3,37 @@ define(function(require) {
 	// the GameSample module (or maybe a class that GameSample uses)
 	// But should definitely not be spesified in the engine
 	var board = require('modules/board');
-	var brick = require('modules/brick');
+	var actor_brick = require('modules/brick_actor');
 	var physics = require('modules/physics');
+
 
 	var Engine = function Engine(layers) {
 		var phys = new physics();
 
 		var redraw = function() {
-			brick.clearRect(0, 0, WIDTH, HEIGHT);
+			brick.prototype.clearRect(0, 0, WIDTH, HEIGHT);
 			if (falling) board.draw(layers);
 			// TODO The transposing of a brick should be moved in to the
 			// brick.draw()-method itself, and should not be explicitly typed here.
 			// Have to be careful when doing this refactoring. Board.js is also 
 			// dependent upon brick.draw, and will also be affected by this change.
 			// Probably have to change the brick.onGround() function as well. 
-			brick.draw(10 + brick.pos.x + brick.pos.y, 
-				0.5*brick.pos.x - 0.5*brick.pos.y + 20*(15 - brick.pos.z));
+			brick.draw();
 		};
 
 		this.run = function() {
 			// TODO: find a better way to find and handle layers and cxts
-			brick = new brick(layers[2]);
-			brick.topStyle = "#ff00c6";
-			brick.leftStyle = brick.topStyle;
-			brick.rightStyle = brick.leftStyle;
+			brick = new actor_brick(layers[2]);
+
+			// This is UGLY TODO Fix a better way to access underlying
+			// methods. Maybe create a style-object that we can pass 
+			// along instead.
+			brick.prototype.topStyle = "#ff00c6";
+			brick.prototype.leftStyle = brick.prototype.topStyle;
+			brick.prototype.rightStyle = brick.prototype.leftStyle;
+
 			phys.register(brick, true, [physics.forces.gravity]);
+
 			board.draw(layers);
 			redraw();
 
