@@ -2,7 +2,7 @@ define(function(require) {
 	// TODO Adding board and brick to the game should be done from
 	// the GameSample module (or maybe a class that GameSample uses)
 	// But should definitely not be spesified in the engine
-	var board = require('modules/board');
+	var Board = require('modules/board');
 	var actor_brick = require('modules/brick_actor');
 	var physics = require('modules/physics');
 
@@ -27,7 +27,6 @@ define(function(require) {
 			brick.rightStyle = brick.leftStyle;
 
 			phys.register(brick, true, [physics.forces.gravity]);
-
 			board.draw(layers);
 			redraw();
 
@@ -82,7 +81,7 @@ define(function(require) {
 			}
 		};
 
-
+		board = new Board();
 		// init the bottom floor for testing
 		for (var i = 0; i < board.DIMENSIONS.x; i++) {
 			for (var j = 0; j < board.DIMENSIONS.y; j++) {
