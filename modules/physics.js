@@ -1,3 +1,11 @@
+/*
+ * Physics is a module that takes care of the in game physics.
+ * It is modeled as a module because we only need one of them.
+ *
+ * Version: Alpha (under dev)
+ *
+ * Author: Ken Gronnbeck
+ */
 define(function(require) {
 	var hash = require('lib/hash');
 	var Forces = require('modules/forces');
