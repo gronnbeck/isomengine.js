@@ -9,28 +9,12 @@
 
 
 define(function(require) {
-	// The helper method for inheritation I've decided to use
-	// Consider using this pattern next time (or maybe impl later)
-	// http://ejohn.org/blog/simple-javascript-inheritance
-
-	// TODO If I decide to use inheritance this way. 
-	// Move it to a more reusable place. 
-	function inherit(child, parent) {
-		child.prototype = parent;
-		var i;
-		child = child || {};
-		for (i in parent) {
-			if (parent.hasOwnProperty(i)) {
-				child[i] = parent[i];
-			}
-		}
-	}
-
-
-	var brick = require('modules/brick');
-	var BrickActor = function (cxt) {	
+	var Brick = require('modules/brick');
+	var BrickActor = function () {	
 		// BETA for taking care of transposing the coordinates correctly
-		inherit(this, new brick(cxt));
+		this.init = function(cxt) {
+			this._super(cxt);
+		};
 		this.draw = function() {
 			var size = this.size;
 			var x = size + this.pos.x + this.pos.y; 
@@ -39,10 +23,9 @@ define(function(require) {
 			// It should adjust according the Height of the canvas
 			// Function:
 			// 		brick_height * (board_height - brick_level)		
-			this.prototype.draw(x,y);
+			this._super(x,y);
 		};
 		return this;
 	};
-
-	return BrickActor;
+	return  Brick.extend(new BrickActor());
 });

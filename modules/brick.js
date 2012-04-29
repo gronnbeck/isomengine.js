@@ -36,17 +36,20 @@ define(function () {
 		cxt.stroke();
 	};
 
-	return function (cxt) {
-		this.strokeStyle = "#000";
-		this.leftStyle = "#000";
-		this.rightStyle = "#000";
-		this.topStyle = "#000";
-		this.leftLayer = cxt;
-		this.rightLayer = cxt;
-		this.topLayer = cxt;
-		this.size = 10;
-		this.pos = { 'x': 0, 'y': 0, 'z': 0 }; 
-		this.speed = { 'x': 0, 'y': 0, 'z': 0 };
+	var Brick = function () {
+		this.init = function(cxt) {
+			this.strokeStyle = "#000";
+			this.leftStyle = "#000";
+			this.rightStyle = "#000";
+			this.topStyle = "#000";
+			this.leftLayer = cxt;
+			this.rightLayer = cxt;
+			this.topLayer = cxt;
+			this.size = 10;
+			this.pos = { 'x': 0, 'y': 0, 'z': 0 }; 
+			this.speed = { 'x': 0, 'y': 0, 'z': 0 };
+			this.cxt = cxt;
+		};
 		// In lack of a better place to put it.
 		// Moved it from engine.js. However, I don't like that a method
 		// which is dependet upon board (and board again are dependent on this module)
@@ -71,7 +74,7 @@ define(function () {
 		};
 		this.draw = function(x, y) {
 			var size = this.size;
-			cxt.strokeStyle = this.strokeStyle;
+			this.cxt.strokeStyle = this.strokeStyle;
 			left(this.leftLayer, x-size, y-size*0.5, size, this.leftStyle);
 			right(this.rightLayer, x+size, y-size*0.5, size, this.rightStyle);
 			top(this.topLayer, x, y-size, size, this.topStyle);
@@ -87,4 +90,5 @@ define(function () {
 			}
 		};
 	};
+	return Class.extend(new Brick());
 });

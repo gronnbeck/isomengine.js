@@ -11,7 +11,7 @@ define(function(require) {
 		var phys = new physics();
 
 		var redraw = function() {
-			brick.prototype.clearRect(0, 0, WIDTH, HEIGHT);
+			brick.clearRect(0, 0, WIDTH, HEIGHT);
 			if (falling) board.draw(layers);
 			brick.draw();
 		};
@@ -19,13 +19,12 @@ define(function(require) {
 		this.run = function() {
 			// TODO: find a better way to find and handle layers and cxts
 			brick = new actor_brick(layers[2]);
-
 			// This is UGLY TODO Fix a better way to access underlying
 			// methods. Maybe create a style-object that we can pass 
 			// along instead.
-			brick.prototype.topStyle = "#ff00c6";
-			brick.prototype.leftStyle = brick.prototype.topStyle;
-			brick.prototype.rightStyle = brick.prototype.leftStyle;
+			brick.topStyle = "#ff00c6";
+			brick.leftStyle = brick.topStyle;
+			brick.rightStyle = brick.leftStyle;
 
 			phys.register(brick, true, [physics.forces.gravity]);
 
