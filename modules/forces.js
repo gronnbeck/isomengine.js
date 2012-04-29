@@ -1,3 +1,11 @@
+/*
+ * Forces is just a module containing different standard forces
+ * for the game engine. It is modeled as an object. It may be better
+ * if it is represented as an module instead, or a singleton if that 
+ * is possible.
+ *
+ * @Author: Ken Gronnbeck
+ */
 define(function() {
 	// Load some sort of configuration here
 	var forces = function Forces() {
